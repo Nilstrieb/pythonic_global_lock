@@ -1,6 +1,4 @@
-//! This crate provides a `GLock<T>`, that is globally locked. Every `GLock<T>` uses the same
-//! global lock, so locking on will lock all. Sounds like a dumb idea? One of the most popular
-//! programming implementations does it, so it must be smart.
+#![doc = include_str!("../README.md")]
 
 use parking_lot::lock_api::{MutexGuard, RawMutex};
 use parking_lot::Mutex;
@@ -30,23 +28,23 @@ impl<T> GLock<T> {
         let value = unsafe { &mut *self.inner.get() };
         GLockGuard {
             value,
-            global_guard,
+            _global_guard: global_guard,
         }
     }
 
-    pub const fn get_mut(&mut self) -> &mut T {
+    pub fn get_mut(&mut self) -> &mut T {
         self.inner.get_mut()
     }
 
-    pub const fn into_inner(self) -> T {
+    pub fn into_inner(self) -> T {
         self.inner.into_inner()
     }
 }
 
 /// A guard that guards a globally locked value
-struct GLockGuard<'a, T> {
+pub struct GLockGuard<'a, T> {
     value: &'a mut T,
-    global_guard: MutexGuard<'a, parking_lot::RawMutex, ()>,
+    _global_guard: MutexGuard<'a, parking_lot::RawMutex, ()>,
 }
 
 impl<'a, T> Deref for GLockGuard<'a, T> {
