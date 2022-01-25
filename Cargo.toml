@@ -2,6 +2,10 @@
 name = "pythonic_global_lock"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+categories = ["concurrency"]
+keywords = ["joke", "locking", "mutex"]
+repository = "https://github.com/Nilstrieb/pythonic_global_lock"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
